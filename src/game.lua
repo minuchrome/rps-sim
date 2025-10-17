@@ -4,8 +4,6 @@ Imgs = {
     s = love.graphics.newImage("imgs/s.png"),
 }
 
-Speed = 2.6
-
 function NewEntity(type, x, y)
     local e = {}
     e.dir = 0

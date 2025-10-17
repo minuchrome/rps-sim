@@ -1,12 +1,17 @@
 require("src.game")
 
-Zoom = 1
-OffsetX = 0
 local started = false
 
+Zoom = 1
+OffsetX = 0
+
+N = 50
+BaseSpeed = 2.5
+Speed = BaseSpeed
+
 function love.load()
-    N = 100
-    love.graphics.setFont(love.graphics.newFont(40))
+    Font = love.graphics.newFont(40)
+    love.graphics.setFont(Font)
     math.randomseed(os.time())
 end
 
@@ -24,6 +29,12 @@ function love.update(dt)
     UpdateTable(dt, Rs)
     UpdateTable(dt, Ps)
     UpdateTable(dt, Ss)
+
+    if love.keyboard.isDown("space") then
+        Speed = BaseSpeed*2
+    else
+        Speed = BaseSpeed
+    end
 end
 
 local function draw_hud()
@@ -45,11 +56,13 @@ local function draw_hud()
             love.graphics.draw(item.img, 20, (i-1)*gap, 0, 0.1, 0.1)
         end
         love.graphics.setColor(0, 0, 0)
+        local speed_s = "speed: "..Speed
+        love.graphics.print(speed_s, SW-Font:getWidth(speed_s), 0)
         for i, item in ipairs(groups) do
             love.graphics.print(tostring(item.count), 80, (i-1)*gap)
         end
     end
-    love.graphics.setColor(1, 1, 1) 
+    love.graphics.setColor(1, 1, 1)
 end
 
 function love.draw()
