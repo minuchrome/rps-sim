@@ -30,7 +30,7 @@ function NewEntity(type, x, y)
         end
         
         for i, o in ipairs(EatTable[self.type]) do
-            if ((e.x-o.x)^2+(e.y-o.y)^2)^0.5 < 50 then
+            if ((e.x-o.x)^2+(e.y-o.y)^2)^0.5 < 25 then
                 if not o.remove then
                     o.remove = true
                     table.insert(Tables[self.type], NewEntity(self.type, self.x, self.y))
@@ -40,7 +40,7 @@ function NewEntity(type, x, y)
     end
 
     function e:draw()
-        love.graphics.draw(Imgs[self.type], self.x, self.y, 0, 0.1, 0.1)
+        love.graphics.draw(Imgs[self.type], self.x, self.y, 0, 0.05, 0.05)
     end
 
     return e

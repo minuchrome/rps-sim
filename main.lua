@@ -4,11 +4,11 @@ Zoom = 1
 OffsetX = 0
 
 N = 50
-BaseSpeed = 2.5
+BaseSpeed = 1
 Speed = BaseSpeed
 
 function love.load()
-    Font = love.graphics.newFont(40)
+    Font = love.graphics.newFont(20)
     love.graphics.setFont(Font)
 end
 
@@ -48,18 +48,18 @@ local function draw_hud()
     table.sort(groups, function (a, b)
         return a.count > b.count
     end)
-    local gap = 60
+    local gap = 30
     love.graphics.setColor(1, 1, 1)
     for i, item in ipairs(groups) do
-        love.graphics.draw(item.img, 20, (i-1)*gap, 0, 0.1, 0.1)
+        love.graphics.draw(item.img, 10, (i-1)*gap, 0, 0.05, 0.05)
     end
     love.graphics.setColor(0, 0, 0)
     local speed_s = "speed: "..Speed
-    love.graphics.print(speed_s, SW-Font:getWidth(speed_s)-20, 0)
+    love.graphics.print(speed_s, SW-Font:getWidth(speed_s)-10, 0)
     local N_s = "N: "..N
-    love.graphics.print(N_s, SW-Font:getWidth(N_s)-20, gap)
+    love.graphics.print(N_s, SW-Font:getWidth(N_s)-10, gap)
     for i, item in ipairs(groups) do
-        love.graphics.print(tostring(item.count), 80, (i-1)*gap)
+        love.graphics.print(tostring(item.count), 40, (i-1)*gap)
     end
     love.graphics.setColor(1, 1, 1)
 end

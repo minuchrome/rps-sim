@@ -1,5 +1,5 @@
-SW = 800
-SH = 800
+SW = 400
+SH = 400
 
 function love.conf(t)
     t.window.width = SW
