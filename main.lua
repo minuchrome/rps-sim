@@ -1,31 +1,32 @@
 require("src.game")
 
-local started = false
-
 Zoom = 1
 OffsetX = 0
 
 N = 50
-BaseSpeed = 2.5
+BaseSpeed = 1
 Speed = BaseSpeed
 
 function love.load()
-    Font = love.graphics.newFont(40)
+    Font = love.graphics.newFont(20)
     love.graphics.setFont(Font)
-    math.randomseed(os.time())
 end
 
 function love.keypressed(key)
-    if not started and key == "space" then
-        Summon("r")
-        Summon("p")
-        Summon("s")
-        started = true
+    if key == "r" then
+        Restart()
+    end
+    if key == "up" then
+        N = N+10
+    end
+    if key == "down" then
+        N = N-10
     end
 end
 
 function love.update(dt)
     dt = dt*60
+
     UpdateTable(dt, Rs)
     UpdateTable(dt, Ps)
     UpdateTable(dt, Ss)
@@ -39,28 +40,26 @@ end
 
 local function draw_hud()
     love.graphics.setColor(0, 0, 0)
-    if not started then
-        love.graphics.print("press [space] to start")
-    else
-        local groups = {
-            {img = Imgs.r, count = #Rs},
-            {img = Imgs.p, count = #Ps},
-            {img = Imgs.s, count = #Ss},
-        }
-        table.sort(groups, function (a, b)
-            return a.count > b.count
-        end)
-        local gap = 60
-        love.graphics.setColor(1, 1, 1)
-        for i, item in ipairs(groups) do
-            love.graphics.draw(item.img, 20, (i-1)*gap, 0, 0.1, 0.1)
-        end
-        love.graphics.setColor(0, 0, 0)
-        local speed_s = "speed: "..Speed
-        love.graphics.print(speed_s, SW-Font:getWidth(speed_s), 0)
-        for i, item in ipairs(groups) do
-            love.graphics.print(tostring(item.count), 80, (i-1)*gap)
-        end
+    local groups = {
+        {img = Imgs.r, count = #Rs},
+        {img = Imgs.p, count = #Ps},
+        {img = Imgs.s, count = #Ss},
+    }
+    table.sort(groups, function (a, b)
+        return a.count > b.count
+    end)
+    local gap = 30
+    love.graphics.setColor(1, 1, 1)
+    for i, item in ipairs(groups) do
+        love.graphics.draw(item.img, 10, (i-1)*gap, 0, 0.05, 0.05)
+    end
+    love.graphics.setColor(0, 0, 0)
+    local speed_s = "speed: "..Speed
+    love.graphics.print(speed_s, SW-Font:getWidth(speed_s)-10, 0)
+    local N_s = "N: "..N
+    love.graphics.print(N_s, SW-Font:getWidth(N_s)-10, gap)
+    for i, item in ipairs(groups) do
+        love.graphics.print(tostring(item.count), 40, (i-1)*gap)
     end
     love.graphics.setColor(1, 1, 1)
 end
