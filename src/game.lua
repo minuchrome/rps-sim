@@ -71,6 +71,11 @@ StartPos = {
 
 function Summon(type)
     local sp = StartPos[type]
+    local t = Tables[type]
+    for i = #t, 1, -1 do
+        table.remove(t, i)
+    end
+
     for _ = 1, N do
         table.insert(Tables[type], NewEntity(type, sp.x, sp.y))
     end
@@ -79,9 +84,10 @@ end
 function UpdateTable(dt, t)
     for i = #t, 1, -1 do
         local e = t[i]
-        e:update(dt)
         if e.remove then
             table.remove(t, i)
+        else
+            e:update(dt)
         end
     end
 end
@@ -91,4 +97,11 @@ function DrawTable(t)
     for _, e in ipairs(t) do
         e:draw()
     end
+end
+
+function Restart()
+    math.randomseed(os.time())
+    Summon("r")
+    Summon("p")
+    Summon("s")
 end

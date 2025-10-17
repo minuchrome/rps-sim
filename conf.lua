@@ -5,5 +5,5 @@ function love.conf(t)
     t.window.width = SW
     t.window.height = SH
     t.window.resizable = true
-    t.window.console = true
+    t.console = true
 end
