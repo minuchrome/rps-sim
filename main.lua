@@ -5,7 +5,7 @@ OffsetX = 0
 local started = false
 
 function love.load()
-    N = 20
+    N = 100
     love.graphics.setFont(love.graphics.newFont(40))
     math.randomseed(os.time())
 end
@@ -31,15 +31,23 @@ local function draw_hud()
     if not started then
         love.graphics.print("press [space] to start")
     else
+        local groups = {
+            {img = Imgs.r, count = #Rs},
+            {img = Imgs.p, count = #Ps},
+            {img = Imgs.s, count = #Ss},
+        }
+        table.sort(groups, function (a, b)
+            return a.count > b.count
+        end)
         local gap = 60
         love.graphics.setColor(1, 1, 1)
-        love.graphics.draw(Imgs.r, 20, 0, 0, 0.1, 0.1)
-        love.graphics.draw(Imgs.p, 20, gap, 0, 0.1, 0.1)
-        love.graphics.draw(Imgs.s, 20, gap*2, 0, 0.1, 0.1)
+        for i, item in ipairs(groups) do
+            love.graphics.draw(item.img, 20, (i-1)*gap, 0, 0.1, 0.1)
+        end
         love.graphics.setColor(0, 0, 0)
-        love.graphics.print(tostring(#Rs), 80, 0)
-        love.graphics.print(tostring(#Ps), 80, gap)
-        love.graphics.print(tostring(#Ss), 80, gap*2)
+        for i, item in ipairs(groups) do
+            love.graphics.print(tostring(item.count), 80, (i-1)*gap)
+        end
     end
     love.graphics.setColor(1, 1, 1) 
 end
